@@ -21,6 +21,7 @@ setup(name='sqlalchemy_pytds',
       author_email='mak@trisoft.com.pl',
       url='https://github.com/m32/sqlalchemy-tds',
       license='MIT',
+      platforms=["any"],
       packages=['sqlalchemy_pytds'],
       classifiers=[
           'Development Status :: 3 - Alpha',
