@@ -12,6 +12,10 @@ VERSION = re.compile(r".*__version__ = '(.*?)'", re.S).match(v.read()).group(1)
 v.close()
 
 readme = os.path.join(os.path.dirname(__file__), 'README.rst')
+requires = [
+    'python-tds',
+    'SQLAlchemy',
+]
 
 setup(name='sqlalchemy_pytds',
       version=VERSION,
@@ -33,6 +37,7 @@ setup(name='sqlalchemy_pytds',
           'Topic :: Database :: Front-Ends',
       ],
       keywords='SQLAlchemy Microsoft SQL Server',
+      install_requires = requires,
       include_package_data=True,
       zip_safe=False,
       tests_require=['nose >= 0.11'],
