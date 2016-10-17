@@ -25,9 +25,9 @@ class PyTDSConnector(Connector):
     driver = 'pytds'
 
     supports_sane_multi_rowcount = False
-    supports_unicode = sys.maxunicode == 65535
-    supports_unicode_binds = supports_unicode
-    supports_unicode_statements = supports_unicode
+    supports_unicode = True
+    supports_unicode_binds = True
+    supports_unicode_statements = True
     supports_native_decimal = True
     default_paramstyle = 'pyformat'
 

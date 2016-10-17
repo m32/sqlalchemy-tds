@@ -22,7 +22,7 @@ class MSExecutionContext_pytds(MSExecutionContext):
                 try:
                     row = self.cursor.fetchall()[0]
                     break
-                except self.dialect.dbapi.Error, e:
+                except self.dialect.dbapi.Error as e:
                     self.cursor.nextset()
 
             self._lastrowid = int(row[0])
