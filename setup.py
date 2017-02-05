@@ -39,7 +39,6 @@ setup(name='sqlalchemy_pytds',
       keywords='SQLAlchemy Microsoft SQL Server',
       install_requires = requires,
       include_package_data=True,
-      zip_safe=False,
       tests_require=['nose >= 0.11'],
       test_suite="nose.collector",
       entry_points={
