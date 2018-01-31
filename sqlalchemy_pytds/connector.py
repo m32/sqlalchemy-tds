@@ -1,14 +1,13 @@
-# connectors/pytds.py
-
 from sqlalchemy.connectors import Connector
 from sqlalchemy.util import asbool
 
-import sys
 import re
+from pytds import tds
 import pytds
 
 prevexecute = pytds.Cursor.execute
 def execute(self, operation, params=()):
+    #print 'execute:', operation, params
     if operation[:3] == 'sp_':
         proc, operation = operation.split(' ', 1)
         assert proc == 'sp_columns'
@@ -20,6 +19,26 @@ def execute(self, operation, params=()):
         return pytds.Cursor.callproc(self, proc, params)
     return prevexecute(self, operation, params)
 pytds.Cursor.execute = execute
+
+def process_tabname(self):
+    r = self._reader
+    total_length = r.get_smallint()
+    if not tds.tds_base.IS_TDS71_PLUS(self):
+        name_length = r.get_smallint()
+    skipall(r, total_length)
+
+def process_colinfo(self):
+    r = self._reader
+    total_length = r.get_smallint()
+    skipall(r, total_length)
+
+
+tds._token_map.update({
+    tds.tds_base.TDS_TABNAME_TOKEN: lambda self: process_tabname(self),
+    tds.tds_base.TDS_COLINFO_TOKEN: lambda self: process_colinfo(self),
+})
+ 
+ 
 
 class PyTDSConnector(Connector):
     driver = 'pytds'
