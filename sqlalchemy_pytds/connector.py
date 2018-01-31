@@ -1,9 +1,11 @@
+# connectors/pytds.py
+
 from sqlalchemy.connectors import Connector
 from sqlalchemy.util import asbool
 
 import re
-from pytds import tds
 import pytds
+from pytds import tds
 
 prevexecute = pytds.Cursor.execute
 def execute(self, operation, params=()):
@@ -25,12 +27,12 @@ def process_tabname(self):
     total_length = r.get_smallint()
     if not tds.tds_base.IS_TDS71_PLUS(self):
         name_length = r.get_smallint()
-    skipall(r, total_length)
+    tds.skipall(r, total_length)
 
 def process_colinfo(self):
     r = self._reader
     total_length = r.get_smallint()
-    skipall(r, total_length)
+    tds.skipall(r, total_length)
 
 
 tds._token_map.update({
