@@ -1,5 +1,5 @@
 # connectors/pytds.py
-
+import pytds.login
 from sqlalchemy.connectors import Connector
 from sqlalchemy.util import asbool
 
@@ -79,11 +79,23 @@ class PyTDSConnector(Connector):
         for param in ('port', 'timeout', 'login_timeout'):
             if param in keys:
                 connect_args[param] = int(keys.pop(param))
-        for param in ('host', 'user', 'password', 'database'):
+        for param in ('host', 'user', 'password', 'database', 'auth_method'):
             if param in keys:
                 connect_args[param] = keys.pop(param)
+
         connect_args['server'] = connect_args['host']
         del connect_args['host']
+
+        if "auth_method" in connect_args:
+            if connect_args["auth_method"] == "mssql":
+                del connect_args["auth_method"]
+            elif connect_args["auth_method"] == "ntlm":
+                connect_args["auth"] = pytds.login.NtlmAuth(connect_args["user"], connect_args["password"])
+                del connect_args["auth_method"]
+                del connect_args["user"]
+                del connect_args["password"]
+            else:
+                raise Exception("Unknown auth_method " + connect_args["auth_method"])
 
         return [[], connect_args]
 
