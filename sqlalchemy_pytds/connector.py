@@ -8,7 +8,7 @@ import pytds
 from pytds import tds
 
 prevexecute = pytds.Cursor.execute
-def execute(self, operation, params=()):
+def execute(self, operation, params=None):
     #print 'execute:', operation, params
     if operation[:3] == 'sp_':
         proc, operation = operation.split(' ', 1)
@@ -83,7 +83,7 @@ class PyTDSConnector(Connector):
             if param in keys:
                 connect_args[param] = keys.pop(param)
 
-        connect_args['server'] = connect_args['host']
+        connect_args['dsn'] = connect_args['host']
         del connect_args['host']
 
         if "auth_method" in connect_args:

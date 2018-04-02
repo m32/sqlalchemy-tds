@@ -1,8 +1,6 @@
-from sqlalchemy.dialects.mssql.base import (
-    MSExecutionContext,
-    MSDialect
-)
+from sqlalchemy.dialects.mssql.base import MSDialect, MSExecutionContext
 from .connector import PyTDSConnector
+
 
 class MSExecutionContext_pytds(MSExecutionContext):
     _embedded_scope_identity = False
@@ -26,15 +24,22 @@ class MSExecutionContext_pytds(MSExecutionContext):
                     self.cursor.nextset()
 
             self._lastrowid = int(row[0])
-        else:
-            super(MSExecutionContext_pytds, self).post_exec()
-
+            self.cursor.lastrowid = int(row[0])
+            self._select_lastrowid = False
+        super(MSExecutionContext_pytds, self).post_exec()
 
 class MSDialect_pytds(PyTDSConnector, MSDialect):
 
     execution_ctx_cls = MSExecutionContext_pytds
 
-    def __init__(self, description_encoding=None, **params):
+    def __init__(self, **params):
         super(MSDialect_pytds, self).__init__(**params)
-        self.description_encoding = description_encoding
         self.use_scope_identity = True
+
+    def set_isolation_level(self, connection, level):
+        if level == 'AUTOCOMMIT':
+            connection.autocommit(True)
+        else:
+            connection.autocommit(False)
+            super(MSDialect_pytds, self).set_isolation_level(connection,
+                                                               level)
