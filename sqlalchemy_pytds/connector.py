@@ -8,18 +8,21 @@ import pytds
 from pytds import tds
 
 prevexecute = pytds.Cursor.execute
+
 def execute(self, operation, params=None):
-    #print 'execute:', operation, params
-    if operation[:3] == 'sp_':
-        proc, operation = operation.split(' ', 1)
-        assert proc == 'sp_columns'
-        operation = operation.split("'")
+    # print 'execute:', operation, params
+    if operation[:3] == "sp_":
+        proc, operation = operation.split(" ", 1)
+        assert proc == "sp_columns"
+        # operation = operation.split("'")
+        # params = {"@table_name": operation[1], "@table_owner": operation[3]}
         params = {
-            '@table_name': operation[1],
-            '@table_owner': operation[3],
+            "@table_name": params["table_name"],
+            "@table_owner": params["table_owner"],
         }
         return pytds.Cursor.callproc(self, proc, params)
     return prevexecute(self, operation, params)
+
 pytds.Cursor.execute = execute
 
 def process_tabname(self):
