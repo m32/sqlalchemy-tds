@@ -1,18 +1,15 @@
-#!/usr/bin/env vpython2
+#!/usr/bin/env vpython3
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
+from t import username, userpass
 
 class Main(object):
     def __init__(self):
-        self.engine = sa.create_engine('mssql+pytds://sa:Admin1!1@127.0.0.1/testing', echo=True)
-        print dir(self.engine)
+        self.engine = sa.create_engine('mssql+pytds://'+username+':'+userpass+'@127.0.0.1/testing')
         self.metadata = sa.MetaData(self.engine)
 
     def close(self):
         pass
-
-    def convert(self, c, row):
-        return c.process_rows([row])[0]
 
     def demo0(self):
         t = sa.Table('#t', self.metadata,
@@ -30,21 +27,23 @@ class Main(object):
                 t.c.idrow < 5
             ).order_by(
                 t.c.idrow
-            ).execution_options(stream_results=True)
+            ).execution_options(
+                stream_results=True
+            )
             c = conn.execute(stmt)
             sc = c.cursor
-            print 'from last'
+            print('from last')
             sc.movelast()
             while True:
                 rs = sc.fetchone()
-                print self.convert(c, rs)
+                print(rs)
                 if not sc.moveprev():
                     break
-            print 'from first'
+            print('from first')
             sc.movefirst()
             while True:
                 rs = sc.fetchone()
-                print self.convert(c, rs)
+                print(rs)
                 if not sc.movenext():
                     break
             c.close()
