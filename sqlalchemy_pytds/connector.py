@@ -9,13 +9,17 @@ from pytds import tds
 
 prevexecute = pytds.Cursor.execute
 
+
 def execute(self, operation, params=None):
-    # print 'execute:', operation, params
-    if operation[:3] == "sp_":
-        proc, operation = operation.split(" ", 1)
-        assert proc == "sp_columns"
-        # operation = operation.split("'")
-        # params = {"@table_name": operation[1], "@table_owner": operation[3]}
+    #print('execute:', operation, params)
+    if operation[:15] == "EXEC sp_columns":
+        proc = "sp_columns"
+        params = {
+            "@table_name": params["table_name"],
+            "@table_owner": params["table_owner"],
+        }
+        return pytds.Cursor.callproc(self, proc, params)
+    elif operation[:10] == "sp_columns":
         params = {
             "@table_name": params["table_name"],
             "@table_owner": params["table_owner"],
@@ -23,7 +27,9 @@ def execute(self, operation, params=None):
         return pytds.Cursor.callproc(self, proc, params)
     return prevexecute(self, operation, params)
 
+
 pytds.Cursor.execute = execute
+
 
 def process_tabname(self):
     r = self._reader
@@ -32,28 +38,30 @@ def process_tabname(self):
         name_length = r.get_smallint()
     tds.skipall(r, total_length)
 
+
 def process_colinfo(self):
     r = self._reader
     total_length = r.get_smallint()
     tds.skipall(r, total_length)
 
 
-tds._token_map.update({
-    tds.tds_base.TDS_TABNAME_TOKEN: lambda self: process_tabname(self),
-    tds.tds_base.TDS_COLINFO_TOKEN: lambda self: process_colinfo(self),
-})
- 
- 
+tds._token_map.update(
+    {
+        tds.tds_base.TDS_TABNAME_TOKEN: lambda self: process_tabname(self),
+        tds.tds_base.TDS_COLINFO_TOKEN: lambda self: process_colinfo(self),
+    }
+)
+
 
 class PyTDSConnector(Connector):
-    driver = 'pytds'
+    driver = "pytds"
 
     supports_sane_multi_rowcount = False
     supports_unicode = True
     supports_unicode_binds = True
     supports_unicode_statements = True
     supports_native_decimal = True
-    default_paramstyle = 'pyformat'
+    default_paramstyle = "pyformat"
 
     @classmethod
     def dbapi(cls):
@@ -61,39 +69,42 @@ class PyTDSConnector(Connector):
 
     def is_disconnect(self, e, connection, cursor):
         if isinstance(e, self.dbapi.ProgrammingError):
-            return "The cursor's connection has been closed." in str(e) or \
-                            'Attempt to use a closed connection.' in str(e)
+            return "The cursor's connection has been closed." in str(
+                e
+            ) or "Attempt to use a closed connection." in str(e)
         elif isinstance(e, self.dbapi.Error):
-            return '[08S01]' in str(e)
+            return "[08S01]" in str(e)
         else:
             return False
 
     def create_connect_args(self, url):
-        opts = url.translate_connect_args(username='user')
+        opts = url.translate_connect_args(username="user")
         opts.update(url.query)
 
         keys = opts
         query = url.query
 
         connect_args = {}
-        for param in ('autocommit', 'use_mars', 'as_dict'):
+        for param in ("autocommit", "use_mars", "as_dict"):
             if param in keys:
                 connect_args[param] = asbool(keys.pop(param))
-        for param in ('port', 'timeout', 'login_timeout'):
+        for param in ("port", "timeout", "login_timeout"):
             if param in keys:
                 connect_args[param] = int(keys.pop(param))
-        for param in ('host', 'user', 'password', 'database', 'auth_method'):
+        for param in ("host", "user", "password", "database", "auth_method"):
             if param in keys:
                 connect_args[param] = keys.pop(param)
 
-        connect_args['dsn'] = connect_args['host']
-        del connect_args['host']
+        connect_args["dsn"] = connect_args["host"]
+        del connect_args["host"]
 
         if "auth_method" in connect_args:
             if connect_args["auth_method"] == "mssql":
                 del connect_args["auth_method"]
             elif connect_args["auth_method"] == "ntlm":
-                connect_args["auth"] = pytds.login.NtlmAuth(connect_args["user"], connect_args["password"])
+                connect_args["auth"] = pytds.login.NtlmAuth(
+                    connect_args["user"], connect_args["password"]
+                )
                 del connect_args["auth_method"]
                 del connect_args["user"]
                 del connect_args["password"]
@@ -108,10 +119,7 @@ class PyTDSConnector(Connector):
         return self._parse_dbapi_version(self.dbapi.version)
 
     def _parse_dbapi_version(self, vers):
-        m = re.match(
-                r'(?:py.*-)?([\d\.]+)(?:-(\w+))?',
-                vers
-            )
+        m = re.match(r"(?:py.*-)?([\d\.]+)(?:-(\w+))?", vers)
         if not m:
             return ()
         vers = tuple([int(x) for x in m.group(1).split(".")])
@@ -123,7 +131,7 @@ class PyTDSConnector(Connector):
         l = connection.connection.product_version
         version = []
         for i in range(4):
-            version.append(l&0xff)
+            version.append(l & 0xFF)
             l >>= 8
         version.reverse()
         return tuple(version)
