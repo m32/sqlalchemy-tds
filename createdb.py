@@ -1,16 +1,15 @@
-#!/usr/bin/env vpython2
-import os
+#!/usr/bin/env vpython3
 import pytds
+from t import username, userpass
 
 class Main(object):
     def __init__(self):
-        self.conn = pytds.connect(dsn='127.0.0.1', user='sa', password='Admin1!1', database='master', autocommit=True)
+        self.conn = pytds.connect(dsn='127.0.0.1', user=username, password=userpass, database='master', autocommit=True)
 
     def close(self):
         self.conn.close()
 
     def main(self):
-        cwd = os.getcwd()
         sqls = (
             '''\
 DROP DATABASE IF EXISTS testing;
@@ -18,16 +17,16 @@ DROP DATABASE IF EXISTS testing;
             '''\
 CREATE DATABASE testing ON (
     NAME = testing_dat,
-    FILENAME = '%(cwd)s/testing_mdf.mdf',
+    FILENAME = '/var/opt/mssql/data/testing_mdf.mdf',
     SIZE = 10,
     FILEGROWTH = 5
 ) LOG ON (
     NAME = testing_log,
-    FILENAME = '%(cwd)s/testing_ldf.ldf',
+    FILENAME = '/var/opt/mssql/data/testing_ldf.ldf',
     SIZE = 5MB,
     FILEGROWTH = 5MB
 )
-''' % {'cwd':cwd},
+''',
             '''\
 USE testing
 ''',
