@@ -79,22 +79,11 @@ class SSCursor(object):
 
 
 class MSSQLCompiler_pytds(MSSQLCompiler):
-    def visit_mod_binary(self, binary, operator, **kw):
-        return self.process(binary.left, **kw) + " %% " + \
-            self.process(binary.right, **kw)
-
-    def post_process_text(self, text):
-        return text.replace('%', '%%')
-
-    def escape_literal_column(self, text):
-        return text.replace('%', '%%')
+    pass
 
 
 class MSSQLIdentifierPreparer_pytds(MSIdentifierPreparer):
-
-    def _escape_identifier(self, value):
-        value = value.replace(self.escape_quote, self.escape_to_quote)
-        return value.replace("%", "%%")
+    pass
 
 
 class MSExecutionContext_pytds(MSExecutionContext):
@@ -140,6 +129,7 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
     preparer = MSSQLIdentifierPreparer_pytds
 
     supports_server_side_cursors = True
+    supports_statement_cache = True
 
     def __init__(self, server_side_cursors=False, **params):
         super(MSDialect_pytds, self).__init__(**params)
