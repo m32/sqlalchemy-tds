@@ -20,6 +20,7 @@ def execute(self, operation, params=None):
         }
         return pytds.Cursor.callproc(self, proc, params)
     elif operation[:10] == "sp_columns":
+        proc = "sp_columns"
         params = {
             "@table_name": params["table_name"],
             "@table_owner": params["table_owner"],
