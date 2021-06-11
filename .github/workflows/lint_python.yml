@@ -13,9 +13,9 @@ jobs:
       - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
       - run: isort --check-only --profile black . || true
       - run: pip install -r requirements.txt || true
-      - run: pip install sqlalchemy
+      - run: pip install python-tds Sqlalchemy
       - run: mypy --ignore-missing-imports . || true
-      - run: pytest . || true
-      - run: pytest --doctest-modules . || true
+      - run: pytest || true
+      - run: pytest --doctest-modules || true
       - run: shopt -s globstar && pyupgrade --py36-plus **/*.py || true
       - run: safety check
