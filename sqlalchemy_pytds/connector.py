@@ -109,6 +109,9 @@ class PyTDSConnector(Connector):
                 del connect_args["auth_method"]
                 del connect_args["user"]
                 del connect_args["password"]
+            elif connect_args["auth_method"] == "sso":
+                connect_args["use_sso"] = True
+                del connect_args["auth_method"]
             else:
                 raise Exception("Unknown auth_method " + connect_args["auth_method"])
 
