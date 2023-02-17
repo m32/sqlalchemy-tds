@@ -96,8 +96,7 @@ class PyTDSConnector(Connector):
             if param in keys:
                 connect_args[param] = keys.pop(param)
 
-        connect_args["dsn"] = connect_args["host"]
-        del connect_args["host"]
+        connect_args["dsn"] = connect_args.pop("host", "localhost")
 
         if "auth_method" in connect_args:
             if connect_args["auth_method"] == "mssql":
