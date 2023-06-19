@@ -14,7 +14,7 @@ v.close()
 readme = os.path.join(os.path.dirname(__file__), 'README.rst')
 requires = [
     'python-tds',
-    'SQLAlchemy',
+    'SQLAlchemy >= 2.0',
 ]
 
 setup(name='sqlalchemy_pytds',
