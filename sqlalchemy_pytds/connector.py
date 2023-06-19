@@ -65,7 +65,7 @@ class PyTDSConnector(Connector):
     default_paramstyle = "pyformat"
 
     @classmethod
-    def dbapi(cls):
+    def import_dbapi(cls):
         return pytds
 
     def is_disconnect(self, e, connection, cursor):
