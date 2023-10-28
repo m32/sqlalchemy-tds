@@ -130,6 +130,8 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
 
     supports_server_side_cursors = True
     supports_statement_cache = True
+    supports_sane_rowcount_returning = True
+    supports_sane_multi_rowcount = False
 
     def __init__(self, server_side_cursors=False, **params):
         super(MSDialect_pytds, self).__init__(**params)
