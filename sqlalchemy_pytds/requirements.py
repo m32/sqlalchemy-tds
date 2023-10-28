@@ -192,3 +192,12 @@ class Requirements(SuiteRequirements):
     def server_side_cursors(self):
         """Target dialect must support server side cursors."""
         return exclusions.closed()
+
+    @property
+    def array_type(self):
+        # ARRAY type not implemented.
+        return exclusions.closed()
+
+    @property
+    def sane_multi_rowcount(self):
+        return exclusions.closed()
