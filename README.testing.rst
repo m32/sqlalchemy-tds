@@ -6,7 +6,8 @@ for more verbose output:
 or:
    python3 -m pytest --log-info=sqlalchemy.engine --log-debug=pytds --log-debug=sqlalchemy.engine
 
-results: 64 failed, 686 passed, 767 skipped, 1 warning
+results with SQLAlchemy==2.0.31
+50 failed, 706 passed, 777 skipped, 1 warning
 
 IMPORTANT:
 

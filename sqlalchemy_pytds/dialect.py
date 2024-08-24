@@ -132,6 +132,8 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
     supports_statement_cache = True
     supports_sane_rowcount_returning = True
     supports_sane_multi_rowcount = False
+    supports_native_decimal = True
+    supports_native_uuid = True
 
     def __init__(self, server_side_cursors=False, **params):
         super(MSDialect_pytds, self).__init__(**params)
