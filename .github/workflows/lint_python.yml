@@ -4,10 +4,10 @@ jobs:
   lint_python:
     runs-on: ubuntu-latest
     steps:
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+#      - name: Use Node.js
+#        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
       - run: pip install --upgrade pip setuptools
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
       - run: bandit --recursive --skip B101 .  # B101 is assert statements
