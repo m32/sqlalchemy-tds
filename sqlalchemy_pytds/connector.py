@@ -1,17 +1,17 @@
 # connectors/pytds.py
+import re
+
+import pytds
 import pytds.login
+from pytds import tds_base, tds_session
 from sqlalchemy.connectors import Connector
 from sqlalchemy.util import asbool
-
-import re
-import pytds
-from pytds import tds
 
 prevexecute = pytds.Cursor.execute
 
 
 def execute(self, operation, params=None):
-    #print('execute:', operation, params)
+    # print('execute:', operation, params)
     if operation[:15] == "EXEC sp_columns":
         proc = "sp_columns"
         params = {
@@ -35,21 +35,21 @@ pytds.Cursor.execute = execute
 def process_tabname(self):
     r = self._reader
     total_length = r.get_smallint()
-    if not tds.tds_base.IS_TDS71_PLUS(self):
+    if not tds_base.IS_TDS71_PLUS(self):
         name_length = r.get_smallint()
-    tds.skipall(r, total_length)
+    tds_base.skipall(r, total_length)
 
 
 def process_colinfo(self):
     r = self._reader
     total_length = r.get_smallint()
-    tds.skipall(r, total_length)
+    tds_base.skipall(r, total_length)
 
 
-tds._token_map.update(
+tds_session._token_map.update(
     {
-        tds.tds_base.TDS_TABNAME_TOKEN: lambda self: process_tabname(self),
-        tds.tds_base.TDS_COLINFO_TOKEN: lambda self: process_colinfo(self),
+        tds_base.TDS_TABNAME_TOKEN: lambda self: process_tabname(self),
+        tds_base.TDS_COLINFO_TOKEN: lambda self: process_colinfo(self),
     }
 )
 

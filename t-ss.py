@@ -1,12 +1,14 @@
 #!/usr/bin/env vpython3
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
+
 from t import username, userpass
+
 
 class Main(object):
     def __init__(self):
-        self.engine = sa.create_engine('mssql+pytds://'+username+':'+userpass+'@127.0.0.1/testing')
-        self.metadata = sa.MetaData(self.engine)
+        self.engine = sa.create_engine('mssql+pytds://'+username+':'+userpass.replace('@', '%40')+'@127.0.0.1/testing')
+        self.metadata = sa.MetaData()
 
     def close(self):
         pass

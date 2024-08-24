@@ -1,6 +1,6 @@
+from sqlalchemy.testing import exclusions
 from sqlalchemy.testing.requirements import SuiteRequirements
 
-from sqlalchemy.testing import exclusions
 
 class Requirements(SuiteRequirements):
 
@@ -11,8 +11,8 @@ class Requirements(SuiteRequirements):
     @property
     def order_by_col_from_union(self):
         """target database supports ordering by a column from a SELECT
-           inside of a UNION
-           E.g.  (SELECT id, ...) UNION (SELECT id, ...) ORDER BY id """
+        inside of a UNION
+        E.g.  (SELECT id, ...) UNION (SELECT id, ...) ORDER BY id"""
         return exclusions.open()
 
     @property
@@ -50,13 +50,13 @@ class Requirements(SuiteRequirements):
     @property
     def empty_strings_varchar(self):
         """target database can persist/return an empty string with a
-        varchar. """
+        varchar."""
         return exclusions.open()
 
     @property
     def text_type(self):
         """Target database must support an unbounded Text()
-        type such as TEXT or CLOB """
+        type such as TEXT or CLOB"""
         return exclusions.open()
 
     @property
@@ -97,7 +97,7 @@ class Requirements(SuiteRequirements):
     @property
     def implements_get_lastrowid(self):
         """target dialect implements the executioncontext.get_lastrowid()
-            method without reliance on RETURNING."""
+        method without reliance on RETURNING."""
         return exclusions.open()
 
     @property
@@ -121,8 +121,7 @@ class Requirements(SuiteRequirements):
 
     @property
     def schemas(self):
-        """Target database supports named schemas
-        """
+        """Target database supports named schemas"""
         return exclusions.open()
 
     @property
@@ -133,14 +132,12 @@ class Requirements(SuiteRequirements):
 
     @property
     def view_reflection(self):
-        """Target database supports view metadata
-        """
+        """Target database supports view metadata"""
         return exclusions.open()
 
     @property
     def precision_numerics_enotation_large(self):
-        """Dialect converts small/large scale decimals into scientific notation
-        """
+        """Dialect converts small/large scale decimals into scientific notation"""
         return exclusions.closed()
 
     @property

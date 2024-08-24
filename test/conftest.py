@@ -1,5 +1,5 @@
-from sqlalchemy.dialects import registry
 import pytest
+from sqlalchemy.dialects import registry
 
 registry.register("mssql.pytds", "sqlalchemy_pytds.dialect", "MSDialect_pytds")
 
