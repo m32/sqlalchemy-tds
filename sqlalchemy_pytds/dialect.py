@@ -101,7 +101,14 @@ class MSSQLCompiler_pytds(MSSQLCompiler):
 
 
 class MSSQLIdentifierPreparer_pytds(MSIdentifierPreparer):
-    pass
+
+    def _escape_identifier(self, value: str) -> str:
+        value = value.replace("]", "]]")
+        value = value.replace("%", "%%")
+        return value
+
+    def _unescape_identifier(self, value: str) -> str:
+        return value.replace("]]", "]")
 
 
 class MSExecutionContext_pytds(MSExecutionContext):
