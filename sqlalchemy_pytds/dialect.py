@@ -165,7 +165,7 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
             #print('parm:', parameters)
             for c in tbl._columns:
                 if isinstance(c.type, SQL_VARIANT):
-                    todo = [name for name in parameters.keys() if c.name == name or re.match(c.name+r'__\d', name)]
+                    todo = [name for name in parameters.keys() if c.name == name or re.match(c.name+r'__(\d+)', name)]
                     #print('todo:', todo)
                     for name in todo:
                         v = parameters.get(name, None)
