@@ -2,10 +2,7 @@
 from inspect import cleandoc
 
 import pytest
-from sqlalchemy import (
-    create_engine,
-    testing,
-)
+from sqlalchemy import create_engine, testing
 from sqlalchemy.testing.suite import ComponentReflectionTest as _ComponentReflectionTest
 from sqlalchemy.testing.suite import CompoundSelectTest as _CompoundSelectTest
 from sqlalchemy.testing.suite import DifficultParametersTest as _DifficultParametersTest
