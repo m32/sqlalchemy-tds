@@ -175,7 +175,7 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
                             parameters[name] = tds_base.Param(name=name, type=tds_types.NVarCharType(size=len(v)), value=v, flags=0)
                         elif isinstance(v, bytes):
                             assert len(v) < 8000
-                            parameters[name] = tds_base.Param(name=name, type=tds_types.NVarCharType(size=len(v)), value=v, flags=0)
+                            parameters[name] = tds_base.Param(name=name, type=tds_types.VarBinaryType(size=len(v)), value=v, flags=0)
             #print('parm:', parameters)
         cursor.execute(statement, parameters)
 
