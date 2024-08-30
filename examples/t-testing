@@ -1,0 +1,9 @@
+pushd ..
+vpython3 -m pytest \
+--log-info=sqlalchemy.engine \
+--log-debug=pytds \
+--log-debug=sqlalchemy.engine \
+$* \
+>x-testing-0-1 \
+2>x-testing-0-2
+popd
