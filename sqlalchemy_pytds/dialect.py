@@ -158,7 +158,7 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
         self.server_side_cursors = server_side_cursors
 
     def do_execute(self, cursor, statement, parameters, context=None):
-        if context and context.isinsert:
+        if context and context.isinsert or context.isupdate:
             tbl = context.compiled.compile_state.dml_table
             #print('*'*20, 'do_execute')
             #print('stmt:', statement)
