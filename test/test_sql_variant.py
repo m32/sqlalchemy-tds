@@ -23,9 +23,7 @@ class SqlVariantTest(fixtures.TablesTest):
         ("datetime2", datetime.datetime(2021, 2, 3, 4, 5, 6, 7000), False),
         (
             "datetimeoffset",
-            datetime.datetime(
-                2021, 2, 3, 4, 5, 6, 7000, tzinfo=datetime.timezone.utc
-            ),
+            datetime.datetime(2021, 2, 3, 4, 5, 6, 7000, tzinfo=datetime.timezone.utc),
             False,
         ),
         ("py_bytes", b"\xab\xcd", False),
@@ -40,9 +38,7 @@ class SqlVariantTest(fixtures.TablesTest):
         argnames="variant_value,expect_error",
         id_="iaa",
     )
-    def test_sql_variant_roundtrip(
-        self, connection, variant_value, expect_error
-    ):
+    def test_sql_variant_roundtrip(self, connection, variant_value, expect_error):
         tbl = self.tables.sql_variant_test
         try:
             connection.execute(
@@ -51,9 +47,7 @@ class SqlVariantTest(fixtures.TablesTest):
             )
             if expect_error:
                 raise Exception("Expected error did not occur.")
-            fetched_value = connection.execute(
-                select(tbl.c.sql_variant_col)
-            ).scalar()
+            fetched_value = connection.execute(select(tbl.c.sql_variant_col)).scalar()
             eq_(fetched_value, variant_value)
         except OperationalError as oe:
             if not expect_error:
