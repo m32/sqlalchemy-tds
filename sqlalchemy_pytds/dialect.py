@@ -1,6 +1,7 @@
 import re
+
+from pytds import tds_base, tds_types
 from sqlalchemy import util
-from sqlalchemy.engine.interfaces import ExecuteStyle
 from sqlalchemy.dialects.mssql import SQL_VARIANT
 from sqlalchemy.dialects.mssql.base import (
     MSDialect,
@@ -8,7 +9,8 @@ from sqlalchemy.dialects.mssql.base import (
     MSIdentifierPreparer,
     MSSQLCompiler,
 )
-from pytds import tds_base, tds_types
+from sqlalchemy.engine.interfaces import ExecuteStyle
+
 from .connector import PyTDSConnector
 
 _server_side_id = util.counter()
