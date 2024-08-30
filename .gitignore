@@ -6,5 +6,4 @@ dist/
 *.egg-info/
 
 .coverage
-t-*
 x-*
