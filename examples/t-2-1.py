@@ -4,8 +4,15 @@ from sqlalchemy import Column, String, create_engine, select, update
 from sqlalchemy.dialects.mssql import SQL_VARIANT
 from sqlalchemy.orm import Session, declarative_base
 
-engine = create_engine('mssql+pytds://'+username+':'+userpass.replace('@', '%40')+'@127.0.0.1/testing')
+engine = create_engine(
+    "mssql+pytds://"
+    + username
+    + ":"
+    + userpass.replace("@", "%40")
+    + "@127.0.0.1/testing"
+)
 Base = declarative_base()
+
 
 class Thing(Base):
     __tablename__ = "#sqlvariant_test"
@@ -18,7 +25,7 @@ Base.metadata.create_all(engine)
 
 with Session(engine) as sess:
     sess.add(Thing(val_type="py_int", val=1))
-    sess.add(Thing(val_type="py_decimal", val=decimal.Decimal('1.1')))
+    sess.add(Thing(val_type="py_decimal", val=decimal.Decimal("1.1")))
     sess.add(Thing(val_type="py_float", val=1.2))
     # WTF TODO
     # after uncommenting the line below everything is ok
@@ -37,10 +44,12 @@ with Session(engine) as sess:
         print(row)
     sess.commit()
 
-    #stmt = update(Thing).values(val=b'ala ma kota').where(Thing.val_type=='py_bytes')
-    stmt = update(Thing).values(val=b'\xab\xcd'*4000).where(Thing.val_type=='py_bytes')
-    stmt = update(Thing).values(val='a'*4000).where(Thing.val_type=='py_string')
-    #print('stmt', str(stmt))
+    # stmt = update(Thing).values(val=b'ala ma kota').where(Thing.val_type=='py_bytes')
+    stmt = (
+        update(Thing).values(val=b"\xab\xcd" * 4000).where(Thing.val_type == "py_bytes")
+    )
+    stmt = update(Thing).values(val="a" * 4000).where(Thing.val_type == "py_string")
+    # print('stmt', str(stmt))
     sess.execute(stmt)
     sess.commit()
 

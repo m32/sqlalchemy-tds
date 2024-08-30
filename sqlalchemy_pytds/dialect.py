@@ -13,6 +13,7 @@ from .connector import PyTDSConnector
 
 _server_side_id = util.counter()
 
+
 class SSCursor(object):
     def __init__(self, c):
         self._c = c
@@ -160,23 +161,37 @@ class MSDialect_pytds(PyTDSConnector, MSDialect):
     def do_execute(self, cursor, statement, parameters, context=None):
         if context and context.isinsert or context.isupdate:
             tbl = context.compiled.compile_state.dml_table
-            #print('*'*20, 'do_execute')
-            #print('stmt:', statement)
-            #print('parm:', parameters)
+            # print('*'*20, 'do_execute')
+            # print('stmt:', statement)
+            # print('parm:', parameters)
             for c in tbl._columns:
                 if isinstance(c.type, SQL_VARIANT):
-                    todo = [name for name in parameters.keys() if c.name == name or re.match(c.name+r'__(\d+)', name)]
-                    #print('todo:', todo)
+                    todo = [
+                        name
+                        for name in parameters.keys()
+                        if c.name == name or re.match(c.name + r"__(\d+)", name)
+                    ]
+                    # print('todo:', todo)
                     for name in todo:
                         v = parameters.get(name, None)
-                        #print('cvt', name, v)
+                        # print('cvt', name, v)
                         if isinstance(v, str):
-                            #assert len(v) <= 4000
-                            parameters[name] = tds_base.Param(name=name, type=tds_types.NVarCharType(size=len(v)), value=v, flags=0)
+                            # assert len(v) <= 4000
+                            parameters[name] = tds_base.Param(
+                                name=name,
+                                type=tds_types.NVarCharType(size=len(v)),
+                                value=v,
+                                flags=0,
+                            )
                         elif isinstance(v, bytes):
-                            #assert len(v) <= 8000
-                            parameters[name] = tds_base.Param(name=name, type=tds_types.VarBinaryType(size=len(v)), value=v, flags=0)
-            #print('parm:', parameters)
+                            # assert len(v) <= 8000
+                            parameters[name] = tds_base.Param(
+                                name=name,
+                                type=tds_types.VarBinaryType(size=len(v)),
+                                value=v,
+                                flags=0,
+                            )
+            # print('parm:', parameters)
         cursor.execute(statement, parameters)
 
     def set_isolation_level(self, connection, level):
