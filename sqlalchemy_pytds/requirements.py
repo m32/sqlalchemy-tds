@@ -198,3 +198,12 @@ class Requirements(SuiteRequirements):
     @property
     def sane_multi_rowcount(self):
         return exclusions.closed()
+
+    @property
+    def unicode_data_no_special_types(self):
+        """Target database/dialect can receive / deliver / compare data with
+        non-ASCII characters in plain VARCHAR, TEXT columns, without the need
+        for special "national" datatypes like NVARCHAR or similar.
+
+        """
+        return exclusions.closed()
