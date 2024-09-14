@@ -4,10 +4,10 @@ can be performed by running:
 for more verbose output:
    python3 -m pytest -v
 or:
-   python3 -m pytest --log-info=sqlalchemy.engine --log-debug=pytds --log-debug=sqlalchemy.engine
+   python3 -m pytest --log-debug=pytds --log-debug=sqlalchemy.engine
 
-results with SQLAlchemy==2.0.31
-50 failed, 706 passed, 777 skipped, 1 warning
+results with SQLAlchemy==2.0.34, python-tds==1.15.0
+================= 768 passed, 788 skipped, 1 warning in 56.72s =================
 
 IMPORTANT:
 
