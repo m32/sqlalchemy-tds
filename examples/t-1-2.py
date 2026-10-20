@@ -3,7 +3,6 @@ import decimal
 
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
-
 from tconfig import username, userpass
 
 
@@ -35,8 +34,8 @@ class Main(object):
         )
         t.create(self.engine)
         with self.engine.begin() as conn:
-            conn.execute(t.insert(), dict(data=15.7563))
-            conn.execute(t.insert(), dict(data=decimal.Decimal("15.7563")))
+            conn.execute(t.insert(), {"data": 15.7563})
+            conn.execute(t.insert(), {"data": decimal.Decimal("15.7563")})
             c = conn.execute(t.select())
             for rs in c.fetchall():
                 print(rs)

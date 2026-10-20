@@ -1,6 +1,6 @@
 from sqlalchemy.testing.suite import *
-
 from sqlalchemy.testing.suite import InsertBehaviorTest as _InsertBehaviorTest
+
 
 class InsertBehaviorTest(_InsertBehaviorTest):
     @testing.skip("mssql")

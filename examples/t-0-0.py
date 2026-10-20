@@ -1,7 +1,7 @@
 #!/usr/bin/env vpython3
-import pytds
-
 from tconfig import username, userpass
+
+import pytds
 
 
 class Main(object):

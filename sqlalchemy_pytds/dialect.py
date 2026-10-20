@@ -1,6 +1,5 @@
 import re
 
-from pytds import tds_base, tds_types
 from sqlalchemy import util
 from sqlalchemy.dialects.mssql import SQL_VARIANT
 from sqlalchemy.dialects.mssql.base import (
@@ -10,6 +9,8 @@ from sqlalchemy.dialects.mssql.base import (
     MSSQLCompiler,
 )
 from sqlalchemy.engine.interfaces import ExecuteStyle
+
+from pytds import tds_base, tds_types
 
 from .connector import PyTDSConnector
 

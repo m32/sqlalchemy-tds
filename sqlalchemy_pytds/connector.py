@@ -1,11 +1,12 @@
 # connectors/pytds.py
 import re
 
+from sqlalchemy.connectors import Connector
+from sqlalchemy.util import asbool
+
 import pytds
 import pytds.login
 from pytds import tds_base, tds_session
-from sqlalchemy.connectors import Connector
-from sqlalchemy.util import asbool
 
 prevexecute = pytds.Cursor.execute
 

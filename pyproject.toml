@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sqlalchemy_pytds"
+dynamic = ["version"]
+description = "A Microsoft SQL Server TDS connector for SQLAlchemy."
+readme = { file = "README.rst", content-type = "text/x-rst" }
+license = { text = "MIT" }
+authors = [
+    { name = "Grzegorz Makarewicz", email = "mak@trisoft.com.pl" },
+]
+keywords = ["SQLAlchemy", "Microsoft SQL Server"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3.3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Topic :: Database :: Front-Ends",
+]
+dependencies = [
+    "python-tds",
+    "SQLAlchemy >= 2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/m32/sqlalchemy-tds"
+
+[tool.setuptools]
+packages = ["sqlalchemy_pytds"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "sqlalchemy_pytds.__version__" }
+
+[project.entry-points."sqlalchemy.dialects"]
+"mssql.pytds" = "sqlalchemy_pytds.dialect:MSDialect_pytds"

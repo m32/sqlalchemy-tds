@@ -3,19 +3,21 @@ from inspect import cleandoc
 
 import pytest
 from sqlalchemy import create_engine, testing
-from sqlalchemy.testing.suite import ComponentReflectionTest as _ComponentReflectionTest
-from sqlalchemy.testing.suite import CompoundSelectTest as _CompoundSelectTest
-from sqlalchemy.testing.suite import DifficultParametersTest as _DifficultParametersTest
-from sqlalchemy.testing.suite import ExceptionTest as _ExceptionTest
-from sqlalchemy.testing.suite import ExpandingBoundInTest as _ExpandingBoundInTest
-from sqlalchemy.testing.suite import HasIndexTest as _HasIndexTest
-from sqlalchemy.testing.suite import HasTableTest as _HasTableTest
-from sqlalchemy.testing.suite import InsertBehaviorTest as _InsertBehaviorTest
-from sqlalchemy.testing.suite import NumericTest as _NumericTest
-from sqlalchemy.testing.suite import QuotedNameArgumentTest as _QuotedNameArgumentTest
-from sqlalchemy.testing.suite import RowCountTest as _RowCountTest
-from sqlalchemy.testing.suite import RowFetchTest as _RowFetchTest
 from sqlalchemy.testing.suite import *  # noqa: F403, F401
+from sqlalchemy.testing.suite import (
+    ComponentReflectionTest as _ComponentReflectionTest,
+    CompoundSelectTest as _CompoundSelectTest,
+    DifficultParametersTest as _DifficultParametersTest,
+    ExceptionTest as _ExceptionTest,
+    ExpandingBoundInTest as _ExpandingBoundInTest,
+    HasIndexTest as _HasIndexTest,
+    HasTableTest as _HasTableTest,
+    InsertBehaviorTest as _InsertBehaviorTest,
+    NumericTest as _NumericTest,
+    QuotedNameArgumentTest as _QuotedNameArgumentTest,
+    RowCountTest as _RowCountTest,
+    RowFetchTest as _RowFetchTest,
+)
 from sqlalchemy.testing.suite.test_ddl import (
     LongNameBlowoutTest as _LongNameBlowoutTest,
 )
@@ -25,8 +27,8 @@ class RowFetchTest(_RowFetchTest):
     RATIONAL = cleandoc(
         """
     PyExasol currently does not support/allow duplicate names in the results set.
-    
-    See also: 
+
+    See also:
     * pyexasol.statement.ExaStatement._check_duplicate_col_names
     """
     )
@@ -41,7 +43,7 @@ class HasTableTest(_HasTableTest):
     RATIONALE = cleandoc(
         """
     The Exasol dialect does not check against views for `has_table`, see also `Inspector.has_table()`.
-    
+
     This behaviour is subject to change with sqlalchemy 2.0.
     See also:
     * https://github.com/sqlalchemy/sqlalchemy/blob/3fc6c40ea77c971d3067dab0fdf57a5b5313b69b/lib/sqlalchemy/engine/reflection.py#L415
@@ -91,7 +93,7 @@ class RowCountTest(_RowCountTest):
         the cursor result always will be set to the rowcount = -1 in this case.
         This also is a valid behaviour according to the python DBAPI specification.
         For more details see also:
-        * https://peps.python.org/pep-0249/ 
+        * https://peps.python.org/pep-0249/
         * https://peps.python.org/pep-0249/#rowcount
         * https://peps.python.org/pep-0249/#id21
         * https://peps.python.org/pep-0249/#executemany
@@ -101,7 +103,7 @@ class RowCountTest(_RowCountTest):
     TURBODBC_RATIONALE = cleandoc(
         """
         The currently used turbodbc driver returns invalid results.
-        Attention: 
+        Attention:
         * turbodbc maintenance is paused until if it is clear if there is still demand for it
         * If this tests will succeed in the future consider repining the turbodbc driver
           dependency in order to provide support for this "features".

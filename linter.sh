@@ -13,3 +13,4 @@ xrun mypy --ignore-missing-imports --exclude=examples/* . || true
 #xrun pytest || true
 #xrun pytest --doctest-modules || true
 #xrun safety check
+xrun ruff check .

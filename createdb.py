@@ -1,6 +1,5 @@
 #!/usr/bin/env vpython3
 import pytds
-
 from t import username, userpass
 
 

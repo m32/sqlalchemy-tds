@@ -43,7 +43,7 @@ class SqlVariantTest(fixtures.TablesTest):
         try:
             connection.execute(
                 insert(tbl),
-                dict(sql_variant_col=variant_value),
+                {"sql_variant_col": variant_value}
             )
             if expect_error:
                 raise Exception("Expected error did not occur.")

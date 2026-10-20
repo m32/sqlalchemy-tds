@@ -3,7 +3,6 @@ import decimal
 from sqlalchemy import Column, String, create_engine, select, update
 from sqlalchemy.dialects.mssql import SQL_VARIANT
 from sqlalchemy.orm import Session, declarative_base
-
 from tconfig import username, userpass
 
 engine = create_engine(

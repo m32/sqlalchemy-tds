@@ -1,0 +1,17 @@
+{
+    "actionButtons": {
+        "loadNpmCommands": true,
+		"reloadButton":"♻️", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
+        "commands": [
+            {
+                "name": "mypy",
+                "singleInstance": true,
+                "color": "#af565c",
+                "command": "vpy3-mypy .",
+            },
+        ]
+    },
+    "python.defaultInterpreterPath": "/devel/bin/python3/bin/python",
+    "python.languageServer": "Pylance",
+    "python.formatting.provider": "black"
+}

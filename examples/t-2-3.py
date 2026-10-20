@@ -1,6 +1,6 @@
-import pytds
-
 from tconfig import username, userpass
+
+import pytds
 
 conn = pytds.connect(
     dsn="127.0.0.1", user=username, password=userpass, database="testing"

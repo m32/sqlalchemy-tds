@@ -1,7 +1,6 @@
 #!/usr/bin/env vpython3
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
-
 from tconfig import username, userpass
 
 
@@ -29,9 +28,9 @@ class Main(object):
         )
         t.create(self.engine)
         with self.engine.begin() as conn:
-            result = conn.execute(t.insert(), dict(data="some % value"))
+            result = conn.execute(t.insert(), {"data": "some % value"})
             print("pk 1=", result.inserted_primary_key[0])
-            result = conn.execute(t.insert(), dict(data="some %% value"))
+            result = conn.execute(t.insert(), {"data": "some %% value"})
             print("pk 2=", result.inserted_primary_key[0])
 
             c = conn.execute(t.select())

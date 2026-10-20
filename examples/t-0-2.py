@@ -1,7 +1,6 @@
 #!/usr/bin/env vpython3
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
-
 from tconfig import username, userpass
 
 

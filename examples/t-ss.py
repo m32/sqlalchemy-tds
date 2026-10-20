@@ -1,7 +1,6 @@
 #!/usr/bin/env vpython3
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
-
 from tconfig import username, userpass
 
 
@@ -29,7 +28,7 @@ class Main(object):
         t.create(self.engine)
         with self.engine.begin() as conn:
             for i in range(10):
-                result = conn.execute(t.insert(), dict(data="row=%03d" % (i + 1)))
+                result = conn.execute(t.insert(), {"data": "row=%03d" % (i + 1)})
         with self.engine.begin() as conn:
             stmt = (
                 sa.select(t.c)
