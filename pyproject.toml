@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=77.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "sqlalchemy_pytds"
 dynamic = ["version"]
 description = "A Microsoft SQL Server TDS connector for SQLAlchemy."
 readme = { file = "README.rst", content-type = "text/x-rst" }
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Grzegorz Makarewicz", email = "mak@trisoft.com.pl" },
 ]
@@ -35,6 +36,10 @@ include-package-data = true
 
 [tool.setuptools.dynamic]
 version = { attr = "sqlalchemy_pytds.__version__" }
+
+[tool.pytest.ini_options]
+addopts = "--tb native --verbose -r fEsxX"
+python_files = ["test/*test_*.py"]
 
 [project.entry-points."sqlalchemy.dialects"]
 "mssql.pytds" = "sqlalchemy_pytds.dialect:MSDialect_pytds"
